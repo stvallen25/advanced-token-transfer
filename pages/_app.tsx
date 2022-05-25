@@ -1,8 +1,14 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { CssBaseline } from '@mui/material';
+import type { AppProps } from 'next/app';
+import AppThemeProvider from '../theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <AppThemeProvider>
+      <CssBaseline />
+      <Component {...pageProps} />
+    </AppThemeProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;

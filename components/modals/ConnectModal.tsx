@@ -2,19 +2,16 @@ import * as React from 'react';
 import { useWeb3React } from '@web3-react/core';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import CircularProgress from '@mui/material/CircularProgress';
-import Link from '@mui/material/Link';
 import { makeStyles } from '@mui/styles';
+import type { Theme } from '@mui/material/styles';
 
 import { injectedConnector, walletConnector } from '../../utils/web3utils';
-import { shorttenString } from '../../utils/strings';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme: Theme) => {
   return {
     modalContainer: {
-      position: 'absolute' as 'absolute',
+      position: 'absolute',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',

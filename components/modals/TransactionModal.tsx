@@ -1,19 +1,18 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Link from '@mui/material/Link';
 import { makeStyles } from '@mui/styles';
+import type { Theme } from '@mui/material/styles';
 
-import { injectedConnector } from '../../utils/web3utils';
 import { shorttenString } from '../../utils/strings';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme: Theme) => {
   return {
     modalContainer: {
-      position: 'absolute' as 'absolute',
+      position: 'absolute',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
@@ -45,9 +44,6 @@ export const TransactionModal: React.FC<ITransactionModalProps> = ({
   txHash,
 }) => {
   const classes = useStyles();
-  const handleViewEtherscan = () => {
-    window.open(`https://ropsten.etherscan.io/tx/${txHash}`, '_blink');
-  };
 
   return (
     <Modal

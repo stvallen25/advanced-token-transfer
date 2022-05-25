@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   walletAddress: '',
-  ethBalance: 0,
-  daiBalance: 0,
+  ethBalance: '0',
+  daiBalance: '0',
 };
 
 export const accountSlice = createSlice({

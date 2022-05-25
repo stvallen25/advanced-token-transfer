@@ -3,7 +3,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-const AppThemeProvider: React.FC = ({ children }) => {
+interface IAppThemeProvider {
+  children: React.ReactNode;
+}
+
+const AppThemeProvider: React.FC<IAppThemeProvider> = ({ children }) => {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 

@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { AppBar, Typography, Toolbar, Box, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import type { Theme } from '@mui/material/styles';
 
 import { ConnectModal } from '../components/modals';
 import { shorttenString } from '../utils/strings';
 
 import type { RootState } from '../store';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme: Theme) => {
   return {
     appBar: {
       position: 'relative',
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => {
 
 export const Header: React.FC = () => {
   const classes = useStyles();
-  const { active, account, library, chainId } = useWeb3React();
+  const { account } = useWeb3React();
   const ethBalance = useSelector((state: RootState) => state.ethBalance);
 
   const [openConnectModal, setOpenConnectModal] = useState(false);

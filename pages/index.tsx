@@ -1,11 +1,16 @@
-import React, { ReactText, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import { Box, Container, TextField, Button, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  TextField,
+  Button,
+  Typography,
+  CssBaseline,
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { Header } from '../layouts/header';
@@ -18,7 +23,7 @@ import { parseEther, formatEther } from 'ethers/lib/utils';
 import type { RootState } from '../store';
 import { setDaiBalance, setEthBalance } from '../store/reducers';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme: any) => {
   return {
     pageContainer: {
       paddingTop: '100px',
@@ -92,7 +97,7 @@ const Home: NextPage = () => {
   }, [active, account]);
 
   const onChangeAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(event.target.value);
+    setAmount(Number(event.target.value));
   };
 
   const onChangeRecipient = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,6 +135,7 @@ const Home: NextPage = () => {
 
   return (
     <Box>
+      <CssBaseline />
       <Header />
       <Container maxWidth="lg" className={classes.pageContainer}>
         <Box className={classes.formWrapper}>

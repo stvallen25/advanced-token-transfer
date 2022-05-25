@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useWeb3React } from '@web3-react/core';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -7,7 +8,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Link from '@mui/material/Link';
 import { makeStyles } from '@mui/styles';
 
-import { shorttenString } from '../utils/strings';
+import { injectedConnector, walletConnector } from '../../utils/web3utils';
+import { shorttenString } from '../../utils/strings';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -16,36 +18,35 @@ const useStyles = makeStyles((theme) => {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: '400px',
+      width: '300px',
       backgroundColor: theme.palette.background.paper,
       borderRadius: '10px',
       boxShadow: `2px 2px 3px 3px ${theme.palette.grey[500]}`,
       padding: theme.spacing(2),
     },
-
-    loadingWrapper: {
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
   };
 });
 
-export interface ITransactionModalProps {
+export interface IConnectModalProps {
   open: boolean;
   handleClose: () => void;
-  txHash: string;
 }
 
-export const TransactionModal: React.FC<ITransactionModalProps> = ({
+export const ConnectModal: React.FC<IConnectModalProps> = ({
   open,
   handleClose,
-  txHash,
 }) => {
   const classes = useStyles();
-  const handleViewEtherscan = () => {
-    window.open(`https://ropsten.etherscan.io/tx/${txHash}`, '_blink');
+  const { activate } = useWeb3React();
+
+  const handleConnectMetamask = async () => {
+    activate(injectedConnector);
+    handleClose();
+  };
+
+  const handleConnectWalletConnect = async () => {
+    activate(walletConnector);
+    handleClose();
   };
 
   return (
@@ -56,23 +57,20 @@ export const TransactionModal: React.FC<ITransactionModalProps> = ({
       aria-describedby="modal-modal-description"
     >
       <Box className={classes.modalContainer}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Transaction in progress
-        </Typography>
-        <Box className={classes.loadingWrapper}>
-          <CircularProgress />
-        </Box>
-        <Box>
-          <Typography sx={{ mt: 2 }}>Transaction hash:</Typography>
-          <Link
-            href={`https://ropsten.etherscan.io/tx/${txHash}`}
-            target="_blank"
-            rel="noopener"
-            underline="none"
-          >
-            {shorttenString(txHash)}
-          </Link>
-        </Box>
+        <Button
+          variant="contained"
+          onClick={handleConnectMetamask}
+          sx={{ width: '100%' }}
+        >
+          Connect MetaMask
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleConnectWalletConnect}
+          sx={{ width: '100%', mt: 1 }}
+        >
+          Connect WalletConnect
+        </Button>
       </Box>
     </Modal>
   );

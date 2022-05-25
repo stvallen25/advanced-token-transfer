@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
-import { AppBar, Typography, Toolbar, Box } from '@mui/material';
+import { AppBar, Typography, Toolbar, Box, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { ConnectButton } from '../components/Buttons';
+import { ConnectModal } from '../components/modals';
 import { shorttenString } from '../utils/strings';
 
 import type { RootState } from '../store';
@@ -32,9 +32,11 @@ const useStyles = makeStyles((theme) => {
 });
 
 export const Header: React.FC = () => {
+  const classes = useStyles();
   const { active, account, library, chainId } = useWeb3React();
   const ethBalance = useSelector((state: RootState) => state.ethBalance);
-  const classes = useStyles();
+
+  const [openConnectModal, setOpenConnectModal] = useState(false);
 
   return (
     <AppBar
@@ -48,18 +50,23 @@ export const Header: React.FC = () => {
           Advanced Token Transfer
         </Typography>
         {!account && (
-          <ConnectButton variant="contained">Connect Wallet</ConnectButton>
+          <Button variant="contained" onClick={() => setOpenConnectModal(true)}>
+            Connect Wallet
+          </Button>
         )}
         {account && (
           <Box className={classes.walletInfo}>
             <Box className="address"> {shorttenString(account, 10)}</Box>
             <Box className="balance">
-              {' '}
               {parseFloat(ethBalance).toFixed(4)} ETH
             </Box>
           </Box>
         )}
       </Toolbar>
+      <ConnectModal
+        open={openConnectModal}
+        handleClose={() => setOpenConnectModal(false)}
+      />
     </AppBar>
   );
 };

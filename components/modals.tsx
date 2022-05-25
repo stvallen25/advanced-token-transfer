@@ -5,20 +5,32 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Link from '@mui/material/Link';
+import { makeStyles } from '@mui/styles';
 
 import { shorttenString } from '../utils/strings';
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+const useStyles = makeStyles((theme) => {
+  return {
+    modalContainer: {
+      position: 'absolute' as 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '400px',
+      backgroundColor: theme.palette.background.paper,
+      borderRadius: '10px',
+      boxShadow: `2px 2px 3px 3px ${theme.palette.grey[500]}`,
+      padding: theme.spacing(2),
+    },
+
+    loadingWrapper: {
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  };
+});
 
 export interface ITransactionModalProps {
   open: boolean;
@@ -31,6 +43,7 @@ export const TransactionModal: React.FC<ITransactionModalProps> = ({
   handleClose,
   txHash,
 }) => {
+  const classes = useStyles();
   const handleViewEtherscan = () => {
     window.open(`https://ropsten.etherscan.io/tx/${txHash}`, '_blink');
   };
@@ -42,18 +55,11 @@ export const TransactionModal: React.FC<ITransactionModalProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box className={classes.modalContainer}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Transaction in progress
         </Typography>
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <Box className={classes.loadingWrapper}>
           <CircularProgress />
         </Box>
         <Box>

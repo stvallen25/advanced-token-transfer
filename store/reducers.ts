@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   walletAddress: '',
-  tokens: [],
+  ethBalance: 0,
+  daiBalance: 0,
 };
 
 export const accountSlice = createSlice({
@@ -12,10 +13,19 @@ export const accountSlice = createSlice({
     setWalletAddress: (state, action) => {
       state.walletAddress = action.payload;
     },
+
+    setDaiBalance: (state, action) => {
+      state.daiBalance = action.payload;
+    },
+
+    setEthBalance: (state, action) => {
+      state.ethBalance = action.payload;
+    },
   },
 });
 
 // Action creators are generate for each case reducer function
-export const { setWalletAddress } = accountSlice.actions;
+export const { setWalletAddress, setDaiBalance, setEthBalance } =
+  accountSlice.actions;
 
 export default accountSlice.reducer;

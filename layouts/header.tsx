@@ -1,7 +1,9 @@
 import React from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { AppBar, Typography, Toolbar } from '@mui/material';
+
 import { ConnectButton } from '../components/Buttons';
+import { shorttenString } from '../utils/strings';
 
 export const Header: React.FC = () => {
   const { active, account, library, chainId } = useWeb3React();
@@ -21,9 +23,9 @@ export const Header: React.FC = () => {
           Advanced Token Transfer
         </Typography>
         {!account && (
-          <ConnectButton variant="contained">Wallet Connect</ConnectButton>
+          <ConnectButton variant="contained">Connect Wallet</ConnectButton>
         )}
-        {account && <> {account}</>}
+        {account && <> {shorttenString(account, 10)}</>}
       </Toolbar>
     </AppBar>
   );

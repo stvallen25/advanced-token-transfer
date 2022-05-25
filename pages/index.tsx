@@ -28,15 +28,15 @@ const Home: NextPage = () => {
   const [openTxModal, setOpenTxModal] = useState(false);
   const [daiBalance, setDaiBalance] = useState(0);
 
+  const fetchDaiBalance = async () => {
+    if (account && active) {
+      const daiBalanceInWei = await DAIContract.balanceOf(account);
+      setDaiBalance(formatEther(daiBalanceInWei));
+    }
+  };
+
   useEffect(() => {
-    const fetchDaiBalance = async () => {
-      if (account && active) {
-        const daiBalanceInWei = await DAIContract.balanceOf(account);
-        setDaiBalance(formatEther(daiBalanceInWei));
-      }
-    };
     fetchDaiBalance();
-    // console.log('active', active);
   }, [active, account]);
 
   const onChangeAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +62,7 @@ const Home: NextPage = () => {
       await tx.wait();
       setIsTransferring(false);
       setOpenTxModal(false);
+      fetchDaiBalance();
     } catch (e) {
       setIsTransferring(false);
       setOpenTxModal(false);

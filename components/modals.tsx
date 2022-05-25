@@ -4,6 +4,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
+import Link from '@mui/material/Link';
+
+import { shorttenString } from '../utils/strings';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -43,13 +46,27 @@ export const TransactionModal: React.FC<ITransactionModalProps> = ({
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Transaction in progress
         </Typography>
-        <Box>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <CircularProgress />
         </Box>
-        <Typography sx={{ mt: 2 }}>Transaction hash: {txHash}</Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <Button onClick={handleViewEtherscan}> View on Etherscan </Button>
-        </Typography>
+        <Box>
+          <Typography sx={{ mt: 2 }}>Transaction hash:</Typography>
+          <Link
+            href={`https://ropsten.etherscan.io/tx/${txHash}`}
+            target="_blank"
+            rel="noopener"
+            underline="none"
+          >
+            {shorttenString(txHash)}
+          </Link>
+        </Box>
       </Box>
     </Modal>
   );

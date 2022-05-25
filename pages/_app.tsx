@@ -1,13 +1,18 @@
 import { CssBaseline } from '@mui/material';
 import type { AppProps } from 'next/app';
+import { Provider } from 'react-redux';
+
 import AppThemeProvider from '../theme';
+import { store } from '../store';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AppThemeProvider>
-      <CssBaseline />
-      <Component {...pageProps} />
-    </AppThemeProvider>
+    <Provider store={store}>
+      <AppThemeProvider>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </AppThemeProvider>
+    </Provider>
   );
 }
 

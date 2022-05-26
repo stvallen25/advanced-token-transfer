@@ -167,7 +167,7 @@ const Home: NextPage = () => {
           <Box className="recipient-input-wrapper">
             <TextField
               id="outlined-basic"
-              label="Receipient Address"
+              label="Recipient Address"
               variant="outlined"
               fullWidth
               onChange={onChangeRecipient}

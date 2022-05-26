@@ -10,6 +10,8 @@ import {
   Button,
   Typography,
   CssBaseline,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -63,6 +65,7 @@ const Home: NextPage = () => {
   const [txHash, setTxHash] = useState('');
   const [isTransferring, setIsTransferring] = useState(false);
   const [openTxModal, setOpenTxModal] = useState(false);
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -117,6 +120,7 @@ const Home: NextPage = () => {
       setOpenTxModal(true);
       setTxHash(tx.hash);
       await tx.wait();
+      setOpenSuccessAlert(true);
       setIsTransferring(false);
       setOpenTxModal(false);
       fetchDaiBalance();
@@ -124,6 +128,10 @@ const Home: NextPage = () => {
       setIsTransferring(false);
       setOpenTxModal(false);
     }
+  };
+
+  const handleClickViewEtherscan = () => {
+    window.open(`https://ropsten.etherscan.io/tx/${txHash}`, '_blank');
   };
 
   const shouldDisableSend = () => {
@@ -173,13 +181,40 @@ const Home: NextPage = () => {
             disabled={shouldDisableSend()}
           >
             {isTransferring
-              ? 'Transferring ...'
+              ? 'Processing ...'
               : !active
               ? 'Connect Wallet'
               : 'Send'}
           </Button>
+          {isTransferring && (
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{ mt: 1 }}
+              onClick={handleClickViewEtherscan}
+            >
+              View on Etherscan
+            </Button>
+          )}
         </Box>
       </Container>
+      <Snackbar
+        open={openSuccessAlert}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        onClose={() => setOpenSuccessAlert(false)}
+      >
+        <Alert
+          onClose={() => setOpenSuccessAlert(false)}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          Transaction completed{' '}
+          <a href={`https://ropsten.etherscan.io/tx/${txHash}`} target="_blank">
+            View on etherscan
+          </a>
+        </Alert>
+      </Snackbar>
 
       <TransactionModal
         open={openTxModal}
